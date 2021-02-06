@@ -11,44 +11,44 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 )
 
-func GetClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+func GetSupplier(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	queryid := req.QueryStringParameters["id"]
 	if len(queryid) > 0 {
 		id, err := strconv.Atoi(queryid)
 		if err != nil {
 			return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 		}
-		result, err := services.FetchClient(id)
+		result, err := services.FetchSupplier(id)
 		if err != nil {
 			return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 		}
 		return apiResponse(http.StatusOK, result)
 	}
-	result, err := services.FetchClients()
+	result, err := services.FetchSuppliers()
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}
 	return apiResponse(http.StatusOK, result)
 }
 
-func CreateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	result, err := services.CreateClient(req)
+func CreateSupplier(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	result, err := services.CreateSupplier(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}
 	return apiResponse(http.StatusCreated, result)
 }
 
-func UpdateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	result, err := services.UpdateClient(req)
+func UpdateSupplier(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	result, err := services.UpdateSupplier(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}
 	return apiResponse(http.StatusOK, result)
 }
 
-func DeleteClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	err := services.DeleteClient(req)
+func DeleteSupplier(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	err := services.DeleteSupplier(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}

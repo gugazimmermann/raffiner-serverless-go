@@ -11,44 +11,44 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 )
 
-func GetClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+func GetProduct(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	queryid := req.QueryStringParameters["id"]
 	if len(queryid) > 0 {
 		id, err := strconv.Atoi(queryid)
 		if err != nil {
 			return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 		}
-		result, err := services.FetchClient(id)
+		result, err := services.FetchProduct(id)
 		if err != nil {
 			return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 		}
 		return apiResponse(http.StatusOK, result)
 	}
-	result, err := services.FetchClients()
+	result, err := services.FetchProducts()
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}
 	return apiResponse(http.StatusOK, result)
 }
 
-func CreateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	result, err := services.CreateClient(req)
+func CreateProduct(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	result, err := services.CreateProduct(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}
 	return apiResponse(http.StatusCreated, result)
 }
 
-func UpdateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	result, err := services.UpdateClient(req)
+func UpdateProduct(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	result, err := services.UpdateProduct(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}
 	return apiResponse(http.StatusOK, result)
 }
 
-func DeleteClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	err := services.DeleteClient(req)
+func DeleteProduct(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	err := services.DeleteProduct(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, types.ErrorBody{aws.String(err.Error())})
 	}

@@ -26,3 +26,33 @@ functions:
       - http:
           path: clients
           method: delete
+  suppliers:
+    handler: bin/suppliers
+    events:
+      - http:
+          path: suppliers
+          method: get
+      - http:
+          path: suppliers
+          method: post
+      - http:
+          path: suppliers
+          method: put
+      - http:
+          path: suppliers
+          method: delete
+  products:
+    handler: bin/products
+    events:
+      - http:
+          path: products
+          method: get
+      - http:
+          path: products
+          method: post
+      - http:
+          path: products
+          method: put
+      - http:
+          path: products
+          method: delete
