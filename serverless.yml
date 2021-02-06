@@ -12,17 +12,17 @@ package:
 
 functions:
   clients:
-    handler: bin/main
+    handler: bin/clients
     events:
       - http:
-          path: users
+          path: clients
           method: get
       - http:
-          path: users
+          path: clients
           method: post
       - http:
-          path: users
+          path: clients
           method: put
       - http:
-          path: users
+          path: clients
           method: delete

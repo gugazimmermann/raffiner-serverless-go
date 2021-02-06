@@ -10,13 +10,13 @@ import (
 func handler(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	switch req.HTTPMethod {
 	case "GET":
-		return handlers.GetUser(req)
+		return handlers.GetClient(req)
 	case "POST":
-		return handlers.CreateUser(req)
+		return handlers.CreateClient(req)
 	case "PUT":
-		return handlers.UpdateUser(req)
+		return handlers.UpdateClient(req)
 	case "DELETE":
-		return handlers.DeleteUser(req)
+		return handlers.DeleteClient(req)
 	default:
 		return handlers.UnhandledMethod()
 	}

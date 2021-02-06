@@ -2,8 +2,9 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
-	"raffiner.com.br/pkg/user"
+	"raffiner.com.br/pkg/services"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go/aws"
@@ -15,13 +16,17 @@ type ErrorBody struct {
 	ErrorMsg *string `json:"error,omitempty"`
 }
 
-func GetUser(req events.APIGatewayProxyRequest) (
+func GetClient(req events.APIGatewayProxyRequest) (
 	*events.APIGatewayProxyResponse,
 	error,
 ) {
-	email := req.QueryStringParameters["email"]
-	if len(email) > 0 {
-		result, err := user.FetchUser(email)
+	queryid := req.QueryStringParameters["id"]
+	if len(queryid) > 0 {
+		id, err := strconv.Atoi(queryid)
+		if err != nil {
+			return apiResponse(http.StatusBadRequest, ErrorBody{aws.String(err.Error())})
+		}
+		result, err := services.FetchClient(id)
 		if err != nil {
 			return apiResponse(http.StatusBadRequest, ErrorBody{aws.String(err.Error())})
 		}
@@ -29,7 +34,7 @@ func GetUser(req events.APIGatewayProxyRequest) (
 		return apiResponse(http.StatusOK, result)
 	}
 
-	result, err := user.FetchUsers()
+	result, err := services.FetchClients()
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, ErrorBody{
 			aws.String(err.Error()),
@@ -38,11 +43,11 @@ func GetUser(req events.APIGatewayProxyRequest) (
 	return apiResponse(http.StatusOK, result)
 }
 
-func CreateUser(req events.APIGatewayProxyRequest) (
+func CreateClient(req events.APIGatewayProxyRequest) (
 	*events.APIGatewayProxyResponse,
 	error,
 ) {
-	result, err := user.CreateUser(req)
+	result, err := services.CreateClient(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, ErrorBody{
 			aws.String(err.Error()),
@@ -51,11 +56,11 @@ func CreateUser(req events.APIGatewayProxyRequest) (
 	return apiResponse(http.StatusCreated, result)
 }
 
-func UpdateUser(req events.APIGatewayProxyRequest) (
+func UpdateClient(req events.APIGatewayProxyRequest) (
 	*events.APIGatewayProxyResponse,
 	error,
 ) {
-	result, err := user.UpdateUser(req)
+	result, err := services.UpdateClient(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, ErrorBody{
 			aws.String(err.Error()),
@@ -64,11 +69,11 @@ func UpdateUser(req events.APIGatewayProxyRequest) (
 	return apiResponse(http.StatusOK, result)
 }
 
-func DeleteUser(req events.APIGatewayProxyRequest) (
+func DeleteClient(req events.APIGatewayProxyRequest) (
 	*events.APIGatewayProxyResponse,
 	error,
 ) {
-	err := user.DeleteUser(req)
+	err := services.DeleteClient(req)
 	if err != nil {
 		return apiResponse(http.StatusBadRequest, ErrorBody{
 			aws.String(err.Error()),
