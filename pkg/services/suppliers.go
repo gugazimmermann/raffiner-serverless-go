@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 
+	"raffiner.com.br/pkg/constants"
 	"raffiner.com.br/pkg/types"
 	"raffiner.com.br/pkg/validators"
 
@@ -12,7 +13,7 @@ import (
 
 func FetchSupplier(id int) (*types.Supplier, error) {
 	if id == 0 {
-		return nil, errors.New(types.ErrorInvalidID)
+		return nil, errors.New(constants.ErrorInvalidID)
 	}
 
 	a := new(types.Address)
@@ -67,10 +68,10 @@ func CreateSupplier(req events.APIGatewayProxyRequest) (*types.Supplier, error) 
 	c := new(types.Supplier)
 	err := json.Unmarshal([]byte(req.Body), c)
 	if err != nil {
-		return nil, errors.New(types.ErrorInvalidData)
+		return nil, errors.New(constants.ErrorInvalidData)
 	}
 	if !validators.IsEmailValid(c.Email) {
-		return nil, errors.New(types.ErrorInvalidEmail)
+		return nil, errors.New(constants.ErrorInvalidEmail)
 	}
 	c.ID = 1
 	return c, nil
@@ -80,10 +81,10 @@ func UpdateSupplier(req events.APIGatewayProxyRequest) (*types.Supplier, error) 
 	c := new(types.Supplier)
 	err := json.Unmarshal([]byte(req.Body), c)
 	if err != nil {
-		return nil, errors.New(types.ErrorInvalidData)
+		return nil, errors.New(constants.ErrorInvalidData)
 	}
 	if !validators.IsEmailValid(c.Email) {
-		return nil, errors.New(types.ErrorInvalidEmail)
+		return nil, errors.New(constants.ErrorInvalidEmail)
 	}
 	return c, nil
 }
@@ -91,7 +92,7 @@ func UpdateSupplier(req events.APIGatewayProxyRequest) (*types.Supplier, error) 
 func DeleteSupplier(req events.APIGatewayProxyRequest) error {
 	id := req.QueryStringParameters["id"]
 	if id == "" || !validators.IsIdInt(id) {
-		return errors.New(types.ErrorCouldNotDelete)
+		return errors.New(constants.ErrorCouldNotDelete)
 	}
 	return nil
 }

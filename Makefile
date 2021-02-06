@@ -1,4 +1,4 @@
-.PHONY: build clean deploy
+.PHONY: build clean deploy remove
 
 build:
 	go get -u ./...
@@ -7,13 +7,10 @@ build:
 	env GOOS=linux GOARCH=amd64 go build -o bin/products cmd/products/products.go
 
 clean:
-	rm -rf ./bin
-	rm -rf ./.serverless
+	rm -rf ./bin ./vendor ./.serverless Gopkg.lock
 
-deploy: build
+deploy: clean build
 	sls deploy --verbose
 
-remove:
+remove: clean
 	sls remove
-	rm -rf ./bin
-	rm -rf ./.serverless

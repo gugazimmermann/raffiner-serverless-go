@@ -10,6 +10,13 @@ package:
  include:
    - ./bin/**
 
+environment:
+  DB_ENDPOINT: "${file(env.json):DB_ENDPOINT}"
+  DB_PORT: ${file(env.json):DB_PORT}
+  DB_NAME: ${file(env.json):DB_NAME}
+  DB_USERNAME: ${file(env.json):DB_USERNAME}
+  DB_PASSWORD: ${file(env.json):DB_PASSWORD}
+
 functions:
   clients:
     handler: bin/clients
@@ -26,6 +33,12 @@ functions:
       - http:
           path: clients
           method: delete
+    environment:
+      DB_ENDPOINT: "${file(env.json):DB_ENDPOINT}"
+      DB_PORT: ${file(env.json):DB_PORT}
+      DB_NAME: ${file(env.json):DB_NAME}
+      DB_USERNAME: ${file(env.json):DB_USERNAME}
+      DB_PASSWORD: ${file(env.json):DB_PASSWORD}
   suppliers:
     handler: bin/suppliers
     events:
@@ -41,6 +54,12 @@ functions:
       - http:
           path: suppliers
           method: delete
+    environment:
+      DB_ENDPOINT: "${file(env.json):DB_ENDPOINT}"
+      DB_PORT: ${file(env.json):DB_PORT}
+      DB_NAME: ${file(env.json):DB_NAME}
+      DB_USERNAME: ${file(env.json):DB_USERNAME}
+      DB_PASSWORD: ${file(env.json):DB_PASSWORD}
   products:
     handler: bin/products
     events:
@@ -56,3 +75,9 @@ functions:
       - http:
           path: products
           method: delete
+    environment:
+      DB_ENDPOINT: "${file(env.json):DB_ENDPOINT}"
+      DB_PORT: ${file(env.json):DB_PORT}
+      DB_NAME: ${file(env.json):DB_NAME}
+      DB_USERNAME: ${file(env.json):DB_USERNAME}
+      DB_PASSWORD: ${file(env.json):DB_PASSWORD}

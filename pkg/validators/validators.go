@@ -20,3 +20,9 @@ func IsIdInt(id string) bool {
 	}
 	return false
 }
+
+func CheckError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}

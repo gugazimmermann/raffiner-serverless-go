@@ -1,3 +1,5 @@
+env.json
+
 ### Go ###
 *.exe
 *.exe~

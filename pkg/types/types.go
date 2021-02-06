@@ -1,12 +1,5 @@
 package types
 
-var (
-	ErrorInvalidID      = "invalid ID"
-	ErrorInvalidData    = "invalid data"
-	ErrorInvalidEmail   = "invalid email"
-	ErrorCouldNotDelete = "could not delete"
-)
-
 type ErrorBody struct {
 	ErrorMsg *string `json:"error,omitempty"`
 }
@@ -24,7 +17,7 @@ type Address struct {
 type Client struct {
 	ID      int     `json:"id,omitempty"`
 	Email   string  `json:"email"`
-	Name    string  `json:"Name"`
+	Name    string  `json:"name"`
 	Address Address `json:"address"`
 	Phone   string  `json:"phone"`
 }

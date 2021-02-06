@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 
+	"raffiner.com.br/pkg/constants"
 	"raffiner.com.br/pkg/types"
 	"raffiner.com.br/pkg/validators"
 
@@ -12,7 +13,7 @@ import (
 
 func FetchProduct(id int) (*types.Product, error) {
 	if id == 0 {
-		return nil, errors.New(types.ErrorInvalidID)
+		return nil, errors.New(constants.ErrorInvalidID)
 	}
 
 	p := new(types.Product)
@@ -64,7 +65,7 @@ func CreateProduct(req events.APIGatewayProxyRequest) (*types.Product, error) {
 	p := new(types.Product)
 	err := json.Unmarshal([]byte(req.Body), p)
 	if err != nil {
-		return nil, errors.New(types.ErrorInvalidData)
+		return nil, errors.New(constants.ErrorInvalidData)
 	}
 	p.ID = 1
 	return p, nil
@@ -74,7 +75,7 @@ func UpdateProduct(req events.APIGatewayProxyRequest) (*types.Product, error) {
 	p := new(types.Product)
 	err := json.Unmarshal([]byte(req.Body), p)
 	if err != nil {
-		return nil, errors.New(types.ErrorInvalidData)
+		return nil, errors.New(constants.ErrorInvalidData)
 	}
 	return p, nil
 }
@@ -82,7 +83,7 @@ func UpdateProduct(req events.APIGatewayProxyRequest) (*types.Product, error) {
 func DeleteProduct(req events.APIGatewayProxyRequest) error {
 	id := req.QueryStringParameters["id"]
 	if id == "" || !validators.IsIdInt(id) {
-		return errors.New(types.ErrorCouldNotDelete)
+		return errors.New(constants.ErrorCouldNotDelete)
 	}
 	return nil
 }

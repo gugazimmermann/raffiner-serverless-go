@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 )
 
+// GetClient -
 func GetClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	queryid := req.QueryStringParameters["id"]
 	if len(queryid) > 0 {
@@ -31,6 +32,7 @@ func GetClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 	return apiResponse(http.StatusOK, result)
 }
 
+// CreateClient -
 func CreateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	result, err := services.CreateClient(req)
 	if err != nil {
@@ -39,6 +41,7 @@ func CreateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyRes
 	return apiResponse(http.StatusCreated, result)
 }
 
+// UpdateClient -
 func UpdateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	result, err := services.UpdateClient(req)
 	if err != nil {
@@ -47,6 +50,7 @@ func UpdateClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyRes
 	return apiResponse(http.StatusOK, result)
 }
 
+// DeleteClient -
 func DeleteClient(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	err := services.DeleteClient(req)
 	if err != nil {

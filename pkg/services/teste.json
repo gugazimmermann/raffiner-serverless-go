@@ -1,0 +1,14 @@
+{
+  "email": "leopoldo@sharpei.com",
+  "name": "Leopoldo",
+  "address": {
+    "street": "Coqueiros",
+    "number": "441",
+    "complement": "",
+    "neighborhood": "Taboleiro",
+    "city": "Camboriú",
+    "state": "SC",
+    "zipCode": "88.305-000"
+  },
+  "phone": "(47)  3365-7612"
+}
