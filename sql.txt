@@ -1,0 +1,144 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema raffiner
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema raffiner
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `raffiner` ;
+USE `raffiner` ;
+
+-- -----------------------------------------------------
+-- Table `raffiner`.`address`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `raffiner`.`address` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `street` VARCHAR(255) NULL,
+  `number` VARCHAR(45) NULL,
+  `complement` VARCHAR(255) NULL,
+  `neighborhood` VARCHAR(255) NULL,
+  `city` VARCHAR(45) NOT NULL,
+  `state` VARCHAR(2) NOT NULL,
+  `zipcode` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `raffiner`.`client`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `raffiner`.`client` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(45) NULL,
+  `address_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_client_address_idx` (`address_id` ASC) VISIBLE,
+  CONSTRAINT `fk_client_address`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `raffiner`.`address` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `raffiner`.`supplier`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `raffiner`.`supplier` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(45) NULL,
+  `address_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_supplier_address1_idx` (`address_id` ASC) VISIBLE,
+  CONSTRAINT `fk_supplier_address1`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `raffiner`.`address` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `raffiner`.`category`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `raffiner`.`category` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `category` VARCHAR(45) NOT NULL,
+  `subcategory` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `raffiner`.`product`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `raffiner`.`product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  `costprice` FLOAT NOT NULL,
+  `rentalprice` FLOAT NOT NULL,
+  `quantity` INT NOT NULL DEFAULT 0,
+  `supplier_id` INT NOT NULL,
+  `category_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_product_supplier1_idx` (`supplier_id` ASC) VISIBLE,
+  INDEX `fk_product_category1_idx` (`category_id` ASC) VISIBLE,
+  CONSTRAINT `fk_product_supplier1`
+    FOREIGN KEY (`supplier_id`)
+    REFERENCES `raffiner`.`supplier` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product_category1`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `raffiner`.`category` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `raffiner`.`tags`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `raffiner`.`tags` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `tag` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `raffiner`.`product_has_tags`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `raffiner`.`product_has_tags` (
+  `product_id` INT NOT NULL,
+  `tags_id` INT NOT NULL,
+  PRIMARY KEY (`product_id`, `tags_id`),
+  INDEX `fk_product_has_tags_tags1_idx` (`tags_id` ASC) VISIBLE,
+  INDEX `fk_product_has_tags_product1_idx` (`product_id` ASC) VISIBLE,
+  CONSTRAINT `fk_product_has_tags_product1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `raffiner`.`product` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product_has_tags_tags1`
+    FOREIGN KEY (`tags_id`)
+    REFERENCES `raffiner`.`tags` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
